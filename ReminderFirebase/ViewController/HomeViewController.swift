@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableWorks.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for : indexPath) as! HomeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for : indexPath) as! HomeTableViewCell
         return cell
     }
     
@@ -40,7 +40,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Helloooo")
         authenticateUserAndConfigureView()
+//        configureViewComponents()
         setupTableView()
     }
     
@@ -58,9 +60,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - API
     
     func loadUserData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Nonde uid")
+            return }
         Database.database().reference().child("users").child(uid).child("username").observeSingleEvent(of: .value) { (snapshot) in
-            guard let username = snapshot.value as? String else { return }
+            guard let username = snapshot.value as? String else {
+                print("Failed")
+                return
+                
+            }
             self.welcomeLabel.text = "Welcome, \(username)"
             
             UIView.animate(withDuration: 0.5, animations: {
@@ -81,6 +89,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func authenticateUserAndConfigureView() {
+        print("curren user is : ", Auth.auth().currentUser)
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let navController = UINavigationController(rootViewController: LoginViewController())
@@ -88,8 +97,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.present(navController, animated: true, completion: nil)
             }
         } else {
+            print("Load")
             configureViewComponents()
+            print("Configured")
             loadUserData()
+            print("Done")
         }
     }
     

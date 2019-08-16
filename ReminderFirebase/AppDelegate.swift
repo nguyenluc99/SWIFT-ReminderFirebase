@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         let navController = UINavigationController(rootViewController: LoginViewController())
+//        navController.viewControllers.
         navController.navigationBar.barStyle = .black
         window?.rootViewController = navController
         

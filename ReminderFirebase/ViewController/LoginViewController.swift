@@ -139,19 +139,27 @@ class LoginViewController: UIViewController {
                 return
             }
             
-            guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
-            print("143", navController.viewControllers.count)
-            guard let controller = navController.viewControllers[0] as? HomeViewController else {
-                print("Fail")
-                return
-            }
-            print("Success")
-            controller.configureViewComponents()
+//            guard let navController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController else { return }
+//            print("143", navController.viewControllers[0])
+//            let controller = UIStoryboard(name: "HomeViewController", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            print("146")
+            let navController = UINavigationController(rootViewController: HomeViewController())
+            print("147")
+            navController.navigationBar.barStyle = .black
+            print("148")
+            self.present(navController, animated: true, completion: nil)
+//            guard let controller = navController.viewControllers[0] as? HomeViewController else {
+//                print("Fail")
+//                return
+//            }
+//            navController.pushViewController(controller, animated: true)
+//            print("Success")
+//            controller.configureViewComponents()
+//
+//            // forgot to add this in video
+//            controller.loadUserData()
             
-            // forgot to add this in video
-            controller.loadUserData()
-            
-            self.dismiss(animated: true, completion: nil)
+//            self.dismiss(animated: true, completion: nil)
         }
     }
     
