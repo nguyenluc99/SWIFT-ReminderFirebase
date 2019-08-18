@@ -89,3 +89,8 @@ extension UITextField {
         return tf
     }
 }
+extension Date{
+    func getTimeStamp () -> Int64! {
+        return Int64(self.timeIntervalSince1970 * 1000)
+    }
+}

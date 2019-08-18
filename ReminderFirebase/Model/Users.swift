@@ -9,14 +9,14 @@
 import Foundation
 import RealmSwift
 
-class Users : Object {
-    @objc dynamic var username = ""
+struct Users {
+    var email = ""
 //    @objc dynamic var password = ""
-    @objc dynamic var works = [Works]()
+    var works = [Works]()
     
-    convenience init(username : String) {
-        self.init()
-        self.username = username
+    init(email : String, works : [Works]) {
+        self.email = email
 //        self.password = password
+        self.works = works
     }
 }

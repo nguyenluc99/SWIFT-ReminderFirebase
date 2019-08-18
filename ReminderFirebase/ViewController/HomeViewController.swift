@@ -63,6 +63,7 @@ class HomeViewController: UIViewController {
         self.addChild(popupVC)
 //        popupVC.view.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 100, height: 80))
         popupVC.view.frame = self.view.frame
+        popupVC.view.tag = 100
         self.view.addSubview(popupVC.view)
         popupVC.didMove(toParent: self)
 //        self.present(navController, animated: true, completion: nil)
