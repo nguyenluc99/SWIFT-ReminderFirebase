@@ -9,17 +9,13 @@
 import UIKit
 import Firebase
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
+class HomeViewController: UIViewController {
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for : indexPath) as! HomeTableViewCell
-        return cell
-    }
+    // MARK _ Create Components
     
-
+//    let datePicker: UIDatePicker = UIDatePicker()
+//    datePicker.frame = CGRect(x)
+    
     var welcomeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -39,8 +35,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Init
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.loadView()
         print("Helloooo")
+        
         authenticateUserAndConfigureView()
 //        configureViewComponents()
         setupTableView()
@@ -55,6 +52,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func handleAddNewWork() {
+//        let navController = UINavigationController(rootViewController: PopupViewController())
+//        navController.navigationBar.barStyle = .black
+//        let popVC = UIStoryboard(
+//        let popupVC = UIStoryboard(name:, bundle: nil).instantiateViewController(withIdentifier: "PopupViewController") as! PopupViewController
+        let popupVC = PopupViewController()
+        self.addChild(popupVC)
+//        popupVC.view.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 100, height: 80))
+        popupVC.view.frame = self.view.frame
+        self.view.addSubview(popupVC.view)
+        popupVC.didMove(toParent: self)
+//        self.present(navController, animated: true, completion: nil)
     }
     
     // MARK: - API
@@ -89,7 +100,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func authenticateUserAndConfigureView() {
-        print("curren user is : ", Auth.auth().currentUser)
+        print("current user is : ", Auth.auth().currentUser)
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let navController = UINavigationController(rootViewController: LoginViewController())
@@ -114,6 +125,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "baseline_arrow_back_white_24dp"), style: .plain, target: self, action: #selector(handleSignOut))
         navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "firebase-logo"), style: .plain, target: self, action: #selector(handleAddNewWork))
+        navigationItem.rightBarButtonItem?.tintColor = .white
         navigationController?.navigationBar.barTintColor = UIColor.mainBlue()
         
         view.addSubview(tableWorks)
@@ -122,8 +135,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     func setupTableView() {
         tableWorks.register(UITableViewCell.self, forCellReuseIdentifier: "CellId")
-        tableWorks.delegate = self
-        tableWorks.dataSource = self
+//        tableWorks.delegate = self
+//        tableWorks.dataSource = self
         view.addSubview(tableWorks)
         
         NSLayoutConstraint.activate([
@@ -133,4 +146,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             tableWorks.leftAnchor.constraint(equalTo: self.view.leftAnchor)
             ])
     }
+}
+// MARK : FUNCTION
+
+
+extension HomeTableViewCell : UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for : indexPath) as! HomeTableViewCell
+        return cell
+    }
+    
 }
